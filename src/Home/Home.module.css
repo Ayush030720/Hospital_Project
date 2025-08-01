@@ -1,0 +1,50 @@
+
+.homeContainer {
+  background-image: url('/hospital_image.webp');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.homeHeading {
+  color: white;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 1rem 2rem;
+  border-radius: 10px;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 1rem;
+}
+
+.homeButton {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color:red;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
