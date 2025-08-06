@@ -1,0 +1,68 @@
+package com.example.demo.controller;
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.bean.Contact;
+import com.example.demo.repository.ContactRepository;
+
+
+
+@RestController
+@RequestMapping("/api/contacts")
+public class ContactController {
+
+	 @Autowired
+	    private ContactRepository contactRepository;
+
+	    // Create
+	    @PostMapping
+	    public Contact createContact(@RequestBody Contact contact) {
+	        return contactRepository.save(contact);
+	    }
+
+	    // Read All
+	    @GetMapping("/all")
+	    public List<Contact> getAllContacts() {
+	        return contactRepository.findAll();
+	    }
+
+	   
+	    
+
+	    // Update
+	    @PutMapping("/{id}")
+	    public ResponseEntity<Contact> updateContact(@PathVariable Long id, @RequestBody Contact updatedContact) {
+	        return contactRepository.findById(id).map(contact -> {
+	            contact.setPhone(updatedContact.getPhone());
+	            contact.setAltPhone(updatedContact.getAltPhone());
+	            contact.setEmail(updatedContact.getEmail());
+	            contact.setEmergencyContactName(updatedContact.getEmergencyContactName());
+	            contact.setEmergencyContactNumber(updatedContact.getEmergencyContactNumber());
+	            contactRepository.save(contact);
+	            return ResponseEntity.ok(contact);
+	        }).orElseGet(() -> ResponseEntity.notFound().build());
+	    }
+
+	    // Delete
+	    @DeleteMapping("/{id}")
+	    public ResponseEntity<Void> deleteContact(@PathVariable Long id) {
+	        if (contactRepository.existsById(id)) {
+	            contactRepository.deleteById(id);
+	            return ResponseEntity.noContent().build();
+	        }
+	        return ResponseEntity.notFound().build();
+	    }
+}
+

@@ -1,0 +1,58 @@
+package com.example.demo.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.bean.Medical;
+import com.example.demo.repository.MedicalRepositary;
+
+import java.util.List;
+//import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/medical")
+@CrossOrigin("*")
+class MedicalController {
+
+    @Autowired
+     MedicalRepositary medicalRepository;
+
+    // CREATE
+    @PostMapping
+    public Medical createRecord(@RequestBody Medical medical) {
+        return medicalRepository.save(medical);
+    }
+
+    // READ ALL
+    @GetMapping("/all")
+    public List<Medical> getAllMedicals() {
+        return medicalRepository.findAll();
+    }
+
+    // READ BY ID
+    @GetMapping("/{id}")
+    public Medical getMedical(@PathVariable Long id) {
+        return medicalRepository.findById(id).orElse(null);
+    }
+
+    // UPDATE (PUT)
+    @PutMapping("/{id}")
+    public Medical updateMedical(@PathVariable Long id, @RequestBody Medical updatedMedical) {
+        return medicalRepository.findById(id).map(existing -> {
+            existing.setBloodGroup(updatedMedical.getBloodGroup());
+            existing.setAllergies(updatedMedical.getAllergies());
+            existing.setConditions(updatedMedical.getConditions());
+            existing.setSurgeries(updatedMedical.getSurgeries());
+            existing.setMedications(updatedMedical.getMedications());
+            existing.setFamilyHistory(updatedMedical.getFamilyHistory());
+            existing.setImmunizations(updatedMedical.getImmunizations());
+            return medicalRepository.save(existing);
+        }).orElse(null);
+    }
+
+    // DELETE
+    @DeleteMapping("/{id}")
+    public void deleteMedical(@PathVariable Long id) {
+        medicalRepository.deleteById(id);
+    }
+}

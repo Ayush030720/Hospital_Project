@@ -13,7 +13,10 @@ export default function AppointmentForm() {
     appointTime: "",
     doctor: "",
     reason: "",
-    extraInfo: ""
+    extraInfo: "",
+    info: {
+      id: 1,
+    },
   };
 
   const validate = (values) => {
@@ -54,7 +57,7 @@ export default function AppointmentForm() {
           payload
         );
       } else {
-        await axios.post("http://localhost:8090/AppointmentBook", values);
+        await axios.post("http://localhost:8090/AppointmentBook", v);
       }
       resetForm();
       setShowPopup(true);
@@ -84,14 +87,14 @@ export default function AppointmentForm() {
     <div style={styles.container}>
       <h2>Appointment Management</h2>
 
-      {/* <button
+      <button
         onClick={() => {
           setEditingAppointment(null);
           setShowFormPopup(true);
         }}
         style={styles.button}>
         Book New Appointment
-      </button> */}
+      </button>
 
       {showFormPopup && (
         <div style={styles.popupOverlay}>

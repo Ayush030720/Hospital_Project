@@ -1,0 +1,8 @@
+package com.example.demo.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+@Repository
+public interface SigninRepository extends JpaRepository<Signup, Long> {
+    boolean existsByEmail(String email);
+}

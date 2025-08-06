@@ -25,7 +25,7 @@ export default function LifestyleForm() {
   const handleSubmit = async (values, { resetForm }) => {
     console.log("Submitted",values)
     try{
-      const response= await axios.post("http://localhost:8090/api/lifestyle",values);
+      const response= await axios.post("http://localhost:8090/api/lifestyles",values);
       navigate("/Appointment");
       resetForm();
       console.log("response"+response.data);

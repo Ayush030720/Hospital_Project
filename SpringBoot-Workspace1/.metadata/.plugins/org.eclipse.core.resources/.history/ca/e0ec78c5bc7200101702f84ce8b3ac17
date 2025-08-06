@@ -1,0 +1,87 @@
+package com.example.demo.controller;
+
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.bean.Signin;
+import com.example.demo.repository.SigninRepository;
+
+
+
+@RestController
+@RequestMapping("/api/signup")
+@CrossOrigin("*")
+public class SiginController {
+
+    @Autowired
+    SigninRepository signupRepository;
+
+    // ✅ CREATE Signup
+    @PostMapping
+    public ResponseEntity<?> createSignup(@RequestBody Signin signup) {
+        if (!signup.getPassword().equals(signup.getConfirmPassword())) {
+            return ResponseEntity.badRequest().body("Password and Confirm Password do not match");
+        }
+
+        if (signupRepository.existsByEmail(signup.getEmail())) {
+            return ResponseEntity.badRequest().body("Email already exists");
+        }
+
+        Signin savedSignup = signupRepository.save(signup);
+        return ResponseEntity.ok(savedSignup);
+    }
+
+    // ✅ LOGIN Validation
+    @PostMapping("/validate")
+    public ResponseEntity<?> validateLogin(@RequestBody Signin loginRequest) {
+        Signin existingUser = signupRepository.findByEmail(loginRequest.getEmail());
+
+        if (existingUser == null) {
+            return ResponseEntity.status(404).body("User not found with email: " + loginRequest.getEmail());
+        }
+
+        if (!existingUser.getPassword().equals(loginRequest.getPassword())) {
+            return ResponseEntity.status(401).body("Incorrect password.");
+        }
+
+        return ResponseEntity.ok("Login successful!");
+    }
+
+    // ✅ READ all
+    @GetMapping("/all")
+    public List<Signin> getAllSignups() {
+        return signupRepository.findAll();
+    }
+
+    // ✅ UPDATE
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateSignup(@PathVariable Long id, @RequestBody Signin updatedSignup) {
+        return signupRepository.findById(id).map(signup -> {
+            if (!updatedSignup.getPassword().equals(updatedSignup.getConfirmPassword())) {
+                return ResponseEntity.badRequest().body("Password and Confirm Password do not match");
+            }
+
+            signup.setEmail(updatedSignup.getEmail());
+            signup.setPassword(updatedSignup.getPassword());
+            signup.setGetConfirmPassword(updatedSignup.getConfirmPassword());
+
+            return ResponseEntity.ok(signupRepository.save(signup));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    // ✅ DELETE
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSignup(@PathVariable Long id) {
+        if (!signupRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        signupRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+}
+

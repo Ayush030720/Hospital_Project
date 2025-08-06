@@ -19,6 +19,7 @@ import Patients from "./Admin/PatientList/Patients";
 import Appointments from "./Admin/AppointmentList/AppointmentsList";
 import Navbar from "./Admin/Navbar/Navbar";
 import DoctorDashboard from "./DoctorPortol/DoctorPortol";
+
 // import Logout from "./Admin/Logout/Logout";
 
 function App() {
@@ -29,7 +30,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />}></Route>
-          <Route path="/appointmentcheck" element={<AppointmentCheck/>}></Route>
+          <Route
+            path="/appointmentcheck"
+            element={<AppointmentCheck />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/Login" element={<LoginComponent />}></Route>
           <Route
@@ -39,15 +42,14 @@ function App() {
           <Route path="/Medicalinfo" element={<MedicalInfoForm />}></Route>
           <Route path="/LifeStyle" element={<LifestyleForm />}></Route>
           <Route path="/Appointment" element={<AppointmentForm />}></Route>
-          <Route path="/Dashboard" element={<Dashboard/>}></Route>
-          <Route path="/doctors" element={<Doctors/>}></Route>
-          <Route path="/medicals" element={<Medical/>}></Route>
-          <Route path="/patients" element={<Patients/>}></Route>
-          <Route path="/appointments" element={<Appointments/>}></Route> {/*//List */}
-          <Route path="/navbar" element={<Navbar/>}></Route> 
-
-           <Route path="/doctorDashboard" element={<DoctorDashboard />} /> 
-
+          <Route path="/Dashboard" element={<Dashboard />}></Route>
+          <Route path="/doctors" element={<Doctors />}></Route>
+          <Route path="/medicals" element={<Medical />}></Route>
+          <Route path="/patients" element={<Patients />}></Route>
+          <Route path="/appointments" element={<Appointments />}></Route>{" "}
+          {/*//List */}
+          <Route path="/navbar" element={<Navbar />}></Route>
+          <Route path="/doctorDashboard" element={<DoctorDashboard />} />
         </Routes>
       </BrowserRouter>
 

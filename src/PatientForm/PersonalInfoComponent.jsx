@@ -53,10 +53,10 @@ export default function PersonalInfoComponent() {
     console.log("Submitted values:", values);
     try {
       const response = await axios.post(
-        "http://localhost:8090/addpatientInfo",
+        "http://localhost:8090/savePatientInfo",
         values
       );
-      console.log("Response:", response.data);
+      console.log("Response:", response);
       navigate("/contact");
       resetForm();
     } catch (err) {

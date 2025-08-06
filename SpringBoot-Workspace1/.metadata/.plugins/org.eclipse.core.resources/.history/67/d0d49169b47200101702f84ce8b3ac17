@@ -1,0 +1,13 @@
+spring.application.name=Hospital_Management
+
+spring.datasource.url=jdbc:oracle:thin:@LAPTOP-ONDPBJAE:1521:XE
+spring.datasource.username=sys as sysdba
+spring.datasource.password=admin
+spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.OracleDialect
+
+spring.jpa.hibernate.ddl-auto=create
+
+spring.jpa.show-sql=true
+server.port=8090

@@ -1,0 +1,61 @@
+package com.example.demo.controller;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.bean.LifeStyle;
+import com.example.demo.repository.LifestyleRepository;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/lifestyles")
+public class LifecycleController {
+
+    @Autowired
+     LifestyleRepository lifestyleRepository;
+
+    @GetMapping({ "", "/all" }) 
+    public List<LifeStyle> getAllLifestyles() {
+        return lifestyleRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<LifeStyle> getLifestyleById(@PathVariable Long id) {
+        return lifestyleRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public LifeStyle createLifestyle(@RequestBody LifeStyle lifestyle) {
+        return lifestyleRepository.save(lifestyle);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<LifeStyle> updateLifestyle(@PathVariable Long id, @RequestBody LifeStyle lifestyleDetails) {
+        return lifestyleRepository.findById(id).map(lifestyle -> {
+            lifestyle.setSmoking(lifestyleDetails.getSmoking());
+            lifestyle.setAlcohol(lifestyleDetails.getAlcohol());
+            lifestyle.setExercise(lifestyleDetails.getExercise());
+            lifestyle.setDiet(lifestyleDetails.getDiet());
+            lifestyle.setSleep(lifestyleDetails.getSleep());
+            lifestyle.setStress(lifestyleDetails.getStress());
+            lifestyle.setNotes(lifestyleDetails.getNotes());
+            return ResponseEntity.ok(lifestyleRepository.save(lifestyle));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteLifestyle(@PathVariable Long id) {
+        return lifestyleRepository.findById(id).map(lifestyle -> {
+            lifestyleRepository.delete(lifestyle);
+            return ResponseEntity.noContent().build(); 
+        }).orElse(ResponseEntity.notFound().build());   
+    }
+
+}
+

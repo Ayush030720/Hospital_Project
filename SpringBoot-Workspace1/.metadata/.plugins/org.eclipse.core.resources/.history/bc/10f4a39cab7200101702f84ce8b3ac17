@@ -1,0 +1,9 @@
+package com.example.demo.repositry;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.demo.bean.patient_personalInfo;
+
+public interface patientInfoRepositry extends JpaRepository<patient_personalInfo, Integer>{
+
+}
