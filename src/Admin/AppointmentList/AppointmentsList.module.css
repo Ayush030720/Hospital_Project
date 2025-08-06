@@ -1,4 +1,4 @@
-.patients {
+.appointments {
   padding: 2rem;
   background-color: #f5faff;
 }
@@ -25,4 +25,6 @@
 .table tr:nth-child(even) {
   background-color: #f0f4f8;
 }
+
+
 

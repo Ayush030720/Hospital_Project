@@ -1,11 +1,10 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+
 export default function LoginComponent() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -15,28 +14,57 @@ export default function LoginComponent() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const storedUser = JSON.parse(localStorage.getItem("user"));
 
+    // Admin login
     if (
-      storedUser &&
-      storedUser.email === loginData.email &&
-      storedUser.password === loginData.password
+      loginData.email === "Admin@test.com" &&
+      loginData.password === "Admin@123"
     ) {
-      alert("Login successful!");
-      navigate("/personalInfo"); // or wherever your next route is
-    } else {
-      alert("Invalid credentials!");
+      alert("Admin login successful!");
+      navigate("/navbar");
+      return;
     }
 
-    // Mock authentication logic
-    console.log("Logging in with:", { email, password });
+    // Doctor login
+    if (
+      loginData.email === "Doctor1@text.com" &&
+      loginData.password === "doc@123"
+    ) {
+      alert("Doctor login successful!");
+      navigate("/doctorDashboard");
+      return;
+    }
 
-    // Clear the form
-    setEmail("");
-    setPassword("");
-    setError("");
+    // User login
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+
+    // User login via backend
+    try {
+      const response = await axios.post(
+        "http://localhost:8090/api/signup/validate",
+        loginData
+      );
+      alert(response.data); // shows "Login successful!"
+
+      // set localStorage and navigate
+      localStorage.setItem("isLoggedIn", "true");
+
+      const hasFilledInfo = localStorage.getItem("hasFilledInfo");
+      if (hasFilledInfo === "true") {
+        navigate("/appointment");
+      } else {
+        localStorage.setItem("hasFilledInfo", "true");
+        navigate("/personalInfo");
+      }
+    } catch (err) {
+      if (err.response) {
+        setError(err.response.data); // backend error like "Incorrect password" or "User not found"
+      } else {
+        setError("Server not reachable. Try again later.");
+      }
+    }
   };
 
   return (

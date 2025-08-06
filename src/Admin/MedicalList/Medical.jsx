@@ -1,5 +1,5 @@
 // src/pages/Medical.jsx
-import styles from '../styles/Medical.module.css';
+import styles from './Medical.module.css';
 
 export default function Medical() {
   return (

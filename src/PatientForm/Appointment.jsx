@@ -1,56 +1,103 @@
-import React, { useState } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import React, { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import axios from "axios";
 
 export default function AppointmentForm() {
-
   const [showPopup, setShowPopup] = useState(false);
+
   const initialValues = {
-    name: '',
-    phone: '',
-    email: '',
-    date: '',
-    time: '',
-    doctor: '',
-    reason: '',
-    notes: '',
+    name: "",
+    phone: "",
+    email: "",
+    appoint_date: "",
+    appoint_time: "",
+    doctor: "",
+    reason: "",
+    extra_info: "",
   };
 
   const validate = (values) => {
     const errors = {};
-    if (!values.name) errors.name = 'Name is required';
-    if (!values.phone) errors.phone = 'Phone is required';
-    if (!values.email) errors.email = 'Email is required';
-    if (!values.date) errors.date = 'Appointment date is required';
-    if (!values.time) errors.time = 'Preferred time is required';
-    if (!values.doctor) errors.doctor = 'Please select a doctor/specialty';
+    if (!values.name) errors.name = "Name is required";
+    if (!values.phone) errors.phone = "Phone is required";
+    if (!values.email) errors.email = "Email is required";
+    if (!values.appoint_date)
+      errors.appoint_date = "Appointment date is required";
+    if (!values.appoint_time)
+      errors.appoint_time = "Preferred time is required";
+    if (!values.doctor) errors.doctor = "Please select a doctor/specialty";
     return errors;
   };
 
-  const handleSubmit = (values, { resetForm }) => {
-    console.log('Appointment Data:', values);
-    setShowPopup(true); // Show popup
-    resetForm();
+  const handleSubmit = async (values, { resetForm }) => {
+    console.log("Appointment Data:", values);
+
+
+values.appoint_date = new Date(values.appoint_date);
+values.appoint_date = values.appoint_date.toISOString().split('T')[0];
+    try {
+      const response = await axios.post(
+        "http://localhost:8090/AppointmentBook",
+        values
+      );
+      setShowPopup(true); // Show popup
+      resetForm();
+      console.log("Response:", response);
+    } catch (err) {
+      console.log("appointment error", err);
+    }
   };
 
   return (
     <div style={styles.container}>
       <h2>Book an Appointment</h2>
-      <Formik initialValues={initialValues} validate={validate} onSubmit={handleSubmit}>
+      <Formik
+        initialValues={initialValues}
+        validate={validate}
+        onSubmit={handleSubmit}>
         <Form style={styles.form}>
-          <Field name="name" type="text" placeholder="Full Name" style={styles.input} />
+          <Field
+            name="name"
+            type="text"
+            placeholder="Full Name"
+            style={styles.input}
+          />
           <ErrorMessage name="name" component="div" style={styles.error} />
 
-          <Field name="phone" type="text" placeholder="Contact Number" style={styles.input} />
+          <Field
+            name="phone"
+            type="text"
+            placeholder="Contact Number"
+            style={styles.input}
+          />
           <ErrorMessage name="phone" component="div" style={styles.error} />
 
-          <Field name="email" type="email" placeholder="Email" style={styles.input} />
+          <Field
+            name="email"
+            type="email"
+            placeholder="Email"
+            style={styles.input}
+          />
           <ErrorMessage name="email" component="div" style={styles.error} />
 
-          <Field name="date" type="date" style={styles.input} />
-          <ErrorMessage name="date" component="div" style={styles.error} />
+          <Field name="appoint_date" type="date" style={styles.input} />
+          <ErrorMessage
+            name="appoint_date"
+            component="div"
+            style={styles.error}
+          />
 
-          <Field name="time" type="time" style={styles.input} />
-          <ErrorMessage name="time" component="div" style={styles.error} />
+          <Field
+            name="appoint_time"
+            type="time"
+            step="1"
+            style={styles.input}
+          />
+          <ErrorMessage
+            name="appoint_time"
+            component="div"
+            style={styles.error}
+          />
 
           <Field as="select" name="doctor" style={styles.input}>
             <option value="">Select Doctor / Department</option>
@@ -71,12 +118,14 @@ export default function AppointmentForm() {
 
           <Field
             as="textarea"
-            name="notes"
-            placeholder="Additional notes (optional)"
+            name="extra_info"
+            placeholder="Additional info (optional)"
             style={styles.textarea}
           />
 
-          <button type="submit" style={styles.button}>Book Appointment</button>
+          <button type="submit" style={styles.button}>
+            Book Appointment
+          </button>
         </Form>
       </Formik>
 
@@ -86,7 +135,9 @@ export default function AppointmentForm() {
             <div style={styles.tick}>✓</div>
             <h3>Appointment Booked</h3>
             <p>Please check your email for confirmation.</p>
-            <button style={styles.closeBtn} onClick={() => setShowPopup(false)}>Close</button>
+            <button style={styles.closeBtn} onClick={() => setShowPopup(false)}>
+              Close
+            </button>
           </div>
         </div>
       )}
@@ -96,65 +147,65 @@ export default function AppointmentForm() {
 
 const styles = {
   container: {
-    width: '500px',
-    margin: '40px auto',
-    padding: '25px',
-    borderRadius: '10px',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f7f7f7',
+    width: "500px",
+    margin: "40px auto",
+    padding: "25px",
+    borderRadius: "10px",
+    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#f7f7f7",
   },
   form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '12px',
+    display: "flex",
+    flexDirection: "column",
+    gap: "12px",
   },
   input: {
-    padding: '10px',
-    fontSize: '16px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
+    padding: "10px",
+    fontSize: "16px",
+    borderRadius: "5px",
+    border: "1px solid #ccc",
   },
   textarea: {
-    padding: '10px',
-    fontSize: '16px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-    minHeight: '60px',
+    padding: "10px",
+    fontSize: "16px",
+    borderRadius: "5px",
+    border: "1px solid #ccc",
+    minHeight: "60px",
   },
   button: {
-    marginTop: '15px',
-    padding: '10px',
-    fontSize: '16px',
-    backgroundColor: '#28a745',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
+    marginTop: "15px",
+    padding: "10px",
+    fontSize: "16px",
+    backgroundColor: "#28a745",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
   },
   error: {
-    color: 'red',
-    fontSize: '13px',
+    color: "red",
+    fontSize: "13px",
   },
   popupBox: {
-    backgroundColor: 'white',
-    padding: '30px',
-    borderRadius: '10px',
-    textAlign: 'center',
-    boxShadow: '0 5px 20px rgba(0,0,0,0.3)',
+    backgroundColor: "white",
+    padding: "30px",
+    borderRadius: "10px",
+    textAlign: "center",
+    boxShadow: "0 5px 20px rgba(0,0,0,0.3)",
   },
   tick: {
-    fontSize: '50px',
-    color: 'green',
-    marginBottom: '10px',
+    fontSize: "50px",
+    color: "green",
+    marginBottom: "10px",
   },
   closeBtn: {
-    marginTop: '15px',
-    padding: '8px 16px',
-    fontSize: '14px',
-    backgroundColor: '#007bff',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
+    marginTop: "15px",
+    padding: "8px 16px",
+    fontSize: "14px",
+    backgroundColor: "#007bff",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
   },
 };

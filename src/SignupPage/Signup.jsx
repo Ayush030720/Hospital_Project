@@ -2,12 +2,13 @@
 import React, { useState } from "react";
 import styles from "./Signup.module.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 const Signup = () => {
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
-    confirm_password: "",
+    confirmPassword: "",
   });
 
   const navigate = useNavigate();
@@ -18,10 +19,27 @@ const Signup = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    localStorage.setItem("user", JSON.stringify(formData));
-    navigate("/Login");
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:8090/api/signup", {
+        email: formData.email,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+      });
+
+      console.log("Signup successful:", response.data);
+      localStorage.setItem("user", JSON.stringify(formData));
+      navigate("/personalInfo");
+    } catch (err) {
+      console.error("Signup error:");
+      alert("Signup failed. Please try again.");
+    }
     // Add API call or validation here
   };
   const handleBackToLogin = () => {
@@ -31,14 +49,6 @@ const Signup = () => {
     <div className={styles.signupContainer}>
       <form className={styles.signupForm} onSubmit={handleSubmit}>
         <h2>Sign Up</h2>
-        <input
-          type="text"
-          name="name"
-          placeholder="Full Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
         <input
           type="email"
           name="email"
@@ -57,9 +67,9 @@ const Signup = () => {
         />
         <input
           type="password"
-          name="confirm_password"
+          name="confirmPassword"
           placeholder="Confirm Password"
-          value={formData.confirm_password}
+          value={formData.confirmPassword}
           onChange={handleChange}
           required
         />

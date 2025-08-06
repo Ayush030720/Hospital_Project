@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 export default function LifestyleForm() {
   const initialValues = {
     smoking: "",
@@ -21,9 +22,17 @@ export default function LifestyleForm() {
     return errors;
   };
 
-  const handleSubmit = (values, { resetForm }) => {
-    navigate("/Appointment");
-    resetForm();
+  const handleSubmit = async (values, { resetForm }) => {
+    console.log("Submitted",values)
+    try{
+      const response= await axios.post("http://localhost:8090/api/lifestyle",values);
+      navigate("/Appointment");
+      resetForm();
+      console.log("response"+response.data);
+    }
+    catch(err){
+      console.log("lifestyle error");
+    }
   };
 
   return (

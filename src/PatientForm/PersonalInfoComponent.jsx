@@ -1,57 +1,67 @@
-import React from 'react'
-import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 export default function PersonalInfoComponent() {
-
   const initialValues = {
-    fullName: '',
-    gender: '',
-    dob: '',
-    phone: '',
-    email: '',
-    address: '',
+    fullName: "",
+    gender: "",
+    dob: "",
+    phone: "",
+    email: "",
+    address: "",
   };
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // Custom validation function
   const validate = (values) => {
     const errors = {};
 
     if (!values.fullName) {
-      errors.fullName = 'Full Name is required';
+      errors.fullName = "Full Name is required";
     }
 
     if (!values.gender) {
-      errors.gender = 'Gender is required';
+      errors.gender = "Gender is required";
     }
 
     if (!values.dob) {
-      errors.dob = 'Date of Birth is required';
+      errors.dob = "Date of Birth is required";
     }
 
     if (!values.phone) {
-      errors.phone = 'Phone number is required';
+      errors.phone = "Phone number is required";
     } else if (!/^\d{10}$/.test(values.phone)) {
-      errors.phone = 'Phone number must be 10 digits';
+      errors.phone = "Phone number must be 10 digits";
     }
 
     if (!values.email) {
-      errors.email = 'Email is required';
+      errors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-      errors.email = 'Invalid email address';
+      errors.email = "Invalid email address";
     }
 
     if (!values.address) {
-      errors.address = 'Address is required';
+      errors.address = "Address is required";
     }
 
     return errors;
   };
 
-  const handleSubmit = (values, { resetForm }) => {
-   navigate('/contact');
-    resetForm();
+  const handleSubmit = async (values, { resetForm }) => {
+    console.log("Submitted values:", values);
+    try {
+      const response = await axios.post(
+        "http://localhost:8090/addpatientInfo",
+        values
+      );
+      console.log("Response:", response.data);
+      navigate("/contact");
+      resetForm();
+    } catch (err) {
+      console.log("personal info error");
+    }
   };
   return (
     <div style={styles.container}>
@@ -59,8 +69,7 @@ const navigate = useNavigate();
       <Formik
         initialValues={initialValues}
         validate={validate}
-        onSubmit={handleSubmit}
-      >
+        onSubmit={handleSubmit}>
         <Form style={styles.form}>
           <Field
             type="text"
@@ -101,11 +110,13 @@ const navigate = useNavigate();
             as="textarea"
             name="address"
             placeholder="Address"
-            style={{ ...styles.input, height: '60px' }}
+            style={{ ...styles.input, height: "60px" }}
           />
           <ErrorMessage name="address" component="div" style={styles.error} />
 
-          <button type="submit" style={styles.button}>Next ➡️</button>
+          <button type="submit" style={styles.button}>
+            Next ➡️
+          </button>
         </Form>
       </Formik>
     </div>
@@ -114,37 +125,36 @@ const navigate = useNavigate();
 
 const styles = {
   container: {
-    width: '350px',
-    margin: '50px auto',
-    padding: '25px',
-    borderRadius: '10px',
-    boxShadow: '0 0 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
+    width: "350px",
+    margin: "50px auto",
+    padding: "25px",
+    borderRadius: "10px",
+    boxShadow: "0 0 8px rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#f9f9f9",
   },
   form: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
   },
   input: {
-    marginBottom: '10px',
-    padding: '10px',
-    fontSize: '16px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
+    marginBottom: "10px",
+    padding: "10px",
+    fontSize: "16px",
+    borderRadius: "5px",
+    border: "1px solid #ccc",
   },
   button: {
-    padding: '10px',
-    fontSize: '16px',
-    backgroundColor: '#28a745',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
+    padding: "10px",
+    fontSize: "16px",
+    backgroundColor: "#28a745",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
   },
   error: {
-    color: 'red',
-    fontSize: '12px',
-    marginBottom: '8px',
+    color: "red",
+    fontSize: "12px",
+    marginBottom: "8px",
   },
 };
-

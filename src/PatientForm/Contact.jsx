@@ -1,6 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 export default function ContactDetailsForm() {
   const initialValues = {
     phone: '',
@@ -43,9 +44,19 @@ export default function ContactDetailsForm() {
     return errors;
   };
 
-  const handleSubmit = (values, { resetForm }) => {
-   navigate('/Medicalinfo')
-    resetForm();
+  const handleSubmit = async (values, { resetForm }) => {
+    console.log("Submitted values:", values);
+    try{
+        const response= await axios.post("http://localhost:8090/api/contacts",values);
+         navigate('/Medicalinfo')
+         resetForm();
+         console.log("Response:", response.data);
+    }
+    
+    catch(err){
+        console.log("contact error");
+    }
+  
   };
 
   return (

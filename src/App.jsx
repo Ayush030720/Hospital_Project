@@ -12,8 +12,15 @@ import AppointmentForm from "./PatientForm/Appointment";
 import Signup from "./SignupPage/Signup";
 import Home from "./Home/Home";
 import AppointmentCheck from "./AppointmentCheck/AppointmentCheck";
+import Dashboard from "./Admin/Dashboard/Dashboard";
+import Doctors from "./Admin/DoctorList/Doctors";
+import Medical from "./Admin/MedicalList/Medical";
+import Patients from "./Admin/PatientList/Patients";
+import Appointments from "./Admin/AppointmentList/AppointmentsList";
+import Navbar from "./Admin/Navbar/Navbar";
+import DoctorDashboard from "./DoctorPortol/DoctorPortol";
+import Logout from "./Admin/Logout/Logout";
 
-AppointmentForm;
 function App() {
   const [count, setCount] = useState(0);
 
@@ -32,6 +39,15 @@ function App() {
           <Route path="/Medicalinfo" element={<MedicalInfoForm />}></Route>
           <Route path="/LifeStyle" element={<LifestyleForm />}></Route>
           <Route path="/Appointment" element={<AppointmentForm />}></Route>
+          <Route path="/Dashboard" element={<Dashboard/>}></Route>
+          <Route path="/doctors" element={<Doctors/>}></Route>
+          <Route path="/medicals" element={<Medical/>}></Route>
+          <Route path="/patients" element={<Patients/>}></Route>
+          <Route path="/appointments" element={<Appointments/>}></Route> {/*//List */}
+          <Route path="/navbar" element={<Navbar/>}></Route> 
+
+           <Route path="/doctorDashboard" element={<DoctorDashboard />} /> 
+
         </Routes>
       </BrowserRouter>
 
