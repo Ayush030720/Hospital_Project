@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import styles from './Login.module.css';
 export default function LoginComponent() {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
@@ -68,16 +68,16 @@ export default function LoginComponent() {
   };
 
   return (
-    <div style={styles.container}>
+    <div className={styles.container}>
       <h2>Login</h2>
-      <form onSubmit={handleSubmit} style={styles.form}>
+      <form onSubmit={handleSubmit} className={styles.form}>
         <input
           type="email"
           name="email"
           placeholder="Email"
           value={loginData.email}
           onChange={handleChange}
-          style={styles.input}
+          className={styles.input}
           required
         />
         <input
@@ -86,11 +86,11 @@ export default function LoginComponent() {
           placeholder="Password"
           value={loginData.password}
           onChange={handleChange}
-          style={styles.input}
+          className={styles.input}
           required
         />
-        {error && <p style={styles.error}>{error}</p>}
-        <button type="submit" style={styles.button}>
+        {error && <p className={styles.error}>{error}</p>}
+        <button type="submit" className={styles.button}>
           Login
         </button>
       </form>
@@ -98,36 +98,62 @@ export default function LoginComponent() {
   );
 }
 
-const styles = {
-  container: {
-    width: "300px",
-    margin: "100px auto",
-    padding: "30px",
-    border: "1px solid #ccc",
-    borderRadius: "10px",
-    textAlign: "center",
-    boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  input: {
-    padding: "10px",
-    margin: "10px 0",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
-  },
-  button: {
-    padding: "10px",
-    backgroundColor: "#007bff",
-    color: "#fff",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-  },
-  error: {
-    color: "red",
-    fontSize: "14px",
-  },
-};
+// \const styles = {
+//   // container: {
+//   //   width: "300px",
+//   //   margin: "100px auto",
+//   //   padding: "30px",
+//   //   border: "1px solid #ccc",
+//   //   borderRadius: "10px",
+//   //   textAlign: "center",
+//   //   backgroundColor:black,
+//   //   // boxShadow: "0 0 10px rgba(14, 3, 3, 0.1)",
+//   // },
+  
+//   container: {
+//   width: "300px",
+//   margin: "100px auto",
+//   padding: "30px",
+//   border: "1px solid #ccc",
+//   borderRadius: "10px",
+//   textAlign: "center",
+//   backgroundColor: "rgba(21, 16, 16, 0.6)", // Black with 60% opacity
+//   color: "#fff", // Make text white for visibility
+//   backdropFilter: "blur(5px)", // optional for blur-glass effect
+//   WebkitBackdropFilter: "blur(5px)",
+//    backgroundColor: "transparent",
+// },
+
+//   form: {
+//     display: "flex",
+//     flexDirection: "column",
+    
+  
+//   },
+//   input: {
+//     padding: "10px",
+//     margin: "10px 0",
+//     borderRadius: "5px",
+//     border: "1px solid #ccc",
+
+//      backgroundColor: "rgba(255, 255, 255, 0.9)",
+//   color: "#000",
+//   },
+//   button: {
+//     padding: "10px",
+//     backgroundColor: "#f31414ff",
+//     color: "#fff",
+//     border: "none",
+//     borderRadius: "5px",
+//     cursor: "pointer",
+//     fontSize:"1rem",
+//   },
+//   error: {
+//     color: "red",
+//     fontSize: "14px",
+//   },
+  
+// };
+// button:hover{
+//   fontSize:0.1rem;
+// }

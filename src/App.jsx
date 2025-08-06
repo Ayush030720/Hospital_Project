@@ -19,7 +19,7 @@ import Patients from "./Admin/PatientList/Patients";
 import Appointments from "./Admin/AppointmentList/AppointmentsList";
 import Navbar from "./Admin/Navbar/Navbar";
 import DoctorDashboard from "./DoctorPortol/DoctorPortol";
-import Logout from "./Admin/Logout/Logout";
+// import Logout from "./Admin/Logout/Logout";
 
 function App() {
   const [count, setCount] = useState(0);

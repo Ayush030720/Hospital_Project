@@ -64,7 +64,7 @@
 } */
 
 body {
-  background-image: url(./hospital_image.webp);
+  background-image: url('../images/signUp.jpg');
   background-size: cover;
   background-position: center;
   margin: 0;
@@ -91,7 +91,7 @@ body {
 .signupForm h2 {
   text-align: center;
   margin-bottom: 1rem;
-  color: aqua;
+  color:white;
 }
 
 .signupForm input {
@@ -110,10 +110,11 @@ body {
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 1rem;
 }
 
 .signupForm button:hover {
-  background-color: darkred;
+ font-size: 1.5rem;
 }
 
 .backButton {
@@ -127,6 +128,3 @@ body {
   cursor: pointer;
 }
 
-.backButton:hover {
-  background-color: darkgray;
-}

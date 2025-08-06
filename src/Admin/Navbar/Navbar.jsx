@@ -50,8 +50,9 @@ export default function Navbar() {
       </nav>
 
       <div className={styles.dashboard}>
-        <h1>Welcome to Hospital Management System</h1>
-        <p>Monitor and manage hospital operations here.</p>
+        <h1>Welcome to SAP LifeCare Hospital</h1>
+        <p className="param">Delivering care with compassion and technology. Start managing your hospital operations efficiently.</p>
+
       </div>
     </div>
   );
