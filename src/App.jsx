@@ -19,7 +19,7 @@ import Patients from "./Admin/PatientList/Patients";
 import Appointments from "./Admin/AppointmentList/AppointmentsList";
 import Navbar from "./Admin/Navbar/Navbar";
 import DoctorDashboard from "./DoctorPortol/DoctorPortol";
-
+import DoctorEntryForm from "./DoctorForm/DoctorForm";
 // import Logout from "./Admin/Logout/Logout";
 
 function App() {
@@ -50,6 +50,7 @@ function App() {
           {/*//List */}
           <Route path="/navbar" element={<Navbar />}></Route>
           <Route path="/doctorDashboard" element={<DoctorDashboard />} />
+          <Route path="/doctorform" element={<DoctorEntryForm/>}/>
         </Routes>
       </BrowserRouter>
 

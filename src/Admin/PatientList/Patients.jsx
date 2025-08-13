@@ -1,6 +1,7 @@
 import axios from 'axios';
 import styles from './Patients.module.css';
 import { useEffect, useState } from 'react';
+import Navbar from '../Navbar/Navbar';
 
 export default function Patients() {
   const [patients, setPatients] = useState([]);
@@ -72,6 +73,7 @@ export default function Patients() {
   };
 
   return (
+    <div> 
     <div className={styles.patients}>
       <h2>Patients List</h2>
 
@@ -192,6 +194,6 @@ export default function Patients() {
           </div>
         </div>
       )}
-    </div>
+    </div></div>
   );
 }

@@ -1,6 +1,5 @@
-
 .homeContainer {
-  background-image: url('/hospital_image.webp');
+  background-image: url("/hospital_image.webp");
   background-size: cover;
   background-position: center;
   min-height: 100vh;
@@ -19,7 +18,7 @@
   border-radius: 10px;
   /* opacity: 20; */
 }
-.param{
+.param {
   font-size: medium;
 }
 .buttonContainer {
@@ -31,27 +30,110 @@
   padding: 1rem 2rem;
   font-size: 1rem;
   font-weight: bold;
-  background-color:red;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-
-
 }
-.homeButton:hover{
-  font-size: 1.5rem;
+.homeButton:hover {
+  font-size: 1.1rem;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between; /* pushes logo left, button right */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: fixed; /* keeps it fixed in place */
+  top: 0; /* sticks it to the very top */
+  left: 0;
+  width: 100%; /* span full width of screen */
+  z-index: 1000; /* stays above other elements */
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding-bottom: 0%;
+  padding-top: 0%;
 }
 
+.navbar-logo img {
+  height: 60px;
+  width: auto;
+}
 
+.navbar-login button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 50px;
+}
 
+.navbar-login button:hover {
+  background-color: #0056b3;
+}
+body {
+  padding-top: 60px; /* adjust to navbar height */
+}
 
+/* Fullscreen background image */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  background-image: url("/images/cover_image.jpg"); /* Replace with hospital image path */
+  background-size: cover;
+  background-position: center;
+}
 
+/* Gradient overlay */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.5),
+    /* dark on left */ rgba(0, 0, 0, 0) /* transparent on right */
+  );
+}
 
+/* Centered content */
+.content {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  transform: translateY(-50%);
+}
 
+/* Email input styling */
+.content input {
+  padding: 12px 16px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  width: 250px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+}
 
+.heroHeading {
+  color: white;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
 
-
-
-
-
+.heroSubheading {
+  color: white;
+  font-size: 1.08rem;
+  margin-bottom: 1.5rem;
+  margin-right: 50%;
+  line-height: 25px;
+}

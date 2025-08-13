@@ -1,6 +1,6 @@
 import styles from "./Navbar.module.css";
 import { Link } from "react-router-dom";
-
+import LogoutButton from "../../LoginPage/Logout";
 import {
   FaTachometerAlt,
   FaUserMd,
@@ -43,7 +43,7 @@ export default function Navbar() {
           </li>
           <li>
             <Link to="/Login" className={styles.navLink}>
-              <FaSignOutAlt style={{ color: "#dc3545" }} /> Logout
+              <LogoutButton className={styles.logoutButton}></LogoutButton>
             </Link>
           </li>
         </ul>

@@ -1,163 +1,196 @@
-import styles from "././Doctors.module.css";
+import axios from "axios";
+import styles from "./Doctors.module.css";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ import navigation hook
+import Navbar from "../Navbar/Navbar";
 
-export default function Doctors() {
-  const doctorList = [
-    {
-      id: 20,
-      name: "Dr. Arjun Mehta",
-      specialty: "Cardiologist",
-      contact: "9876543210",
-    },
-    {
-      id: 2,
-      name: "Dr. Priya Shah",
-      specialty: "Dermatologist",
-      contact: "9123456789",
-    },
-    {
-      id: 3,
-      name: "Dr. Aman Verma",
-      specialty: "Neurologist",
-      contact: "9988776655",
-    },
-    {
-      id: 4,
-      name: "Dr. Riya Patel",
-      specialty: "Pediatrician",
-      contact: "9012345678",
-    },
-    {
-      id: 5,
-      name: "Dr. Karan Singh",
-      specialty: "Orthopedic",
-      contact: "8901234567",
-    },
-    {
-      id: 6,
-      name: "Dr. Anjali Roy",
-      specialty: "Gastroenterologist",
-      contact: "9812345678",
-    },
-    {
-      id: 7,
-      name: "Dr. Manish Rao",
-      specialty: "ENT Specialist",
-      contact: "9871234560",
-    },
-    {
-      id: 8,
-      name: "Dr. Sneha Iyer",
-      specialty: "Oncologist",
-      contact: "9765432101",
-    },
-    {
-      id: 9,
-      name: "Dr. Nikhil Jain",
-      specialty: "Urologist",
-      contact: "9988998899",
-    },
-    {
-      id: 10,
-      name: "Dr. Meera Joshi",
-      specialty: "Gynecologist",
-      contact: "9123456790",
-    },
-    {
-      id: 11,
-      name: "Dr. Ravi Kumar",
-      specialty: "Physiotherapist",
-      contact: "8899776655",
-    },
-    {
-      id: 12,
-      name: "Dr. Tara Sharma",
-      specialty: "Dermatologist",
-      contact: "9870011223",
-    },
-    {
-      id: 13,
-      name: "Dr. Dev Patel",
-      specialty: "Psychiatrist",
-      contact: "9988771122",
-    },
-    {
-      id: 14,
-      name: "Dr. Alok Yadav",
-      specialty: "Cardiologist",
-      contact: "9123401234",
-    },
-    {
-      id: 15,
-      name: "Dr. Anu Menon",
-      specialty: "General Physician",
-      contact: "9800123456",
-    },
-    {
-      id: 16,
-      name: "Dr. Vinay Bhat",
-      specialty: "Radiologist",
-      contact: "9998887776",
-    },
-    {
-      id: 17,
-      name: "Dr. Kavya Reddy",
-      specialty: "Neurologist",
-      contact: "9123498765",
-    },
-    {
-      id: 18,
-      name: "Dr. Rajiv Pillai",
-      specialty: "Nephrologist",
-      contact: "9876540011",
-    },
-    {
-      id: 19,
-      name: "Dr. Naina Sharma",
-      specialty: "Dentist",
-      contact: "9001122334",
-    },
-    {
-      id: 1,
-      name: "Dr. Prasad Baba",
-      specialty: "Endocrinologist",
-      contact: "100",
-    },
-  ];
+export default function DoctorList() {
+  const [doctors, setDoctors] = useState([]);
+  const [editingDoctor, setEditingDoctor] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [searchId, setSearchId] = useState("");
+  const [filteredDoctors, setFilteredDoctors] = useState([]);
+  const navigate = useNavigate(); // ✅ for navigation
+
+  useEffect(() => {
+    fetchDoctors();
+  }, []);
+
+  const fetchDoctors = () => {
+    axios
+      .get("http://localhost:8090/api/doctors")
+      .then((response) => {
+        setDoctors(response.data);
+        setFilteredDoctors(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching doctors:", error);
+      });
+  };
+
+  const handleDelete = (id) => {
+    axios
+      .delete(`http://localhost:8090/api/doctors/${id}`)
+      .then(() => fetchDoctors())
+      .catch((error) => console.error("Delete error:", error));
+  };
+
+  const handleEdit = (doctor) => {
+    setEditingDoctor(doctor);
+    setShowPopup(true);
+  };
+
+  const handleSearch = () => {
+    if (searchId.trim() === "") {
+      setFilteredDoctors(doctors);
+    } else {
+      const result = doctors.filter((d) => d.id.toString() === searchId);
+      setFilteredDoctors(result);
+    }
+  };
+
+  const handleChange = (e) => {
+    setEditingDoctor({ ...editingDoctor, [e.target.name]: e.target.value });
+  };
+
+  const handleUpdate = () => {
+    axios
+      .put(`http://localhost:8090/api/doctors/${editingDoctor.id}`, editingDoctor)
+      .then(() => {
+        fetchDoctors();
+        setShowPopup(false);
+        setEditingDoctor(null);
+      })
+      .catch((error) => console.error("Update error:", error));
+  };
 
   return (
-    <div className={styles.doctors}>
-      <h2>Doctors List</h2>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Specialization</th>
-            <th>Contact</th>
-          </tr>
-        </thead>
-        <tbody>
-          {doctorList.map((doc) => (
-            <tr key={doc.id}>
-              <td>{doc.id}</td>
-              <td>{doc.name}</td>
-              <td>{doc.specialty}</td>
-              <td>{doc.contact}</td>
+    <div>
+      
+      <div className={styles.doctors}>
+        <h2>Doctors List</h2>
+
+        {/* ✅ New Doctor Entry Button */}
+        <div style={{ marginBottom: "20px", display: "flex", justifyContent: "space-between" }}>
+          <div>
+            <input
+              type="text"
+              placeholder="Search by ID"
+              value={searchId}
+              onChange={(e) => setSearchId(e.target.value)}
+              style={{ padding: "8px", marginRight: "8px" }}
+            />
+            <button onClick={handleSearch} style={{ padding: "8px 16px" }}>
+              Search
+            </button>
+          </div>
+          <button
+            className={styles.addBtn}
+            onClick={() => navigate("/doctorform")} // ✅ navigate to doctor entry form
+          >
+            + Add New Doctor
+          </button>
+        </div>
+
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Qualification</th>
+              <th>Specialization</th>
+              <th>Joining Date</th>
+              <th>Experience</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredDoctors.map((doctor) => (
+              <tr key={doctor.id}>
+                <td>{doctor.id}</td>
+                <td>{doctor.name}</td>
+                <td>{doctor.qualification}</td>
+                <td>{doctor.specialization}</td>
+                <td>{doctor.joining_date}</td>
+                <td>{doctor.experience}</td>
+                <td>
+                  <button
+                    style={{ marginRight: "5px", background: "#ffc107" }}
+                    onClick={() => handleEdit(doctor)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    style={{ background: "#dc3545", color: "white" }}
+                    onClick={() => handleDelete(doctor.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {showPopup && editingDoctor && (
+          <div className={styles.popupOverlay}>
+            <div className={styles.popupBox}>
+              <h3>Update Doctor</h3>
+              <input
+                name="name"
+                placeholder="Name"
+                value={editingDoctor.name}
+                onChange={handleChange}
+                className={styles.input}
+              />
+              <input
+                name="qualification"
+                placeholder="Qualification"
+                value={editingDoctor.qualification}
+                onChange={handleChange}
+                className={styles.input}
+              />
+              <input
+                name="specialization"
+                placeholder="Specialization"
+                value={editingDoctor.specialization}
+                onChange={handleChange}
+                className={styles.input}
+              />
+              <input
+                name="joining_date"
+                type="date"
+                value={editingDoctor.joining_date}
+                onChange={handleChange}
+                className={styles.input}
+              />
+              <input
+                name="experience"
+                type="number"
+                placeholder="Experience"
+                value={editingDoctor.experience}
+                onChange={handleChange}
+                className={styles.input}
+              />
+
+              <div style={{ marginTop: "10px" }}>
+                <button onClick={handleUpdate} className={styles.button}>
+                  Update
+                </button>
+                <button
+                  onClick={() => {
+                    setShowPopup(false);
+                    setEditingDoctor(null);
+                  }}
+                  className={styles.cancelBtn}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
-
-// import styles from '../styles/Doctors.module.css';
-
-// export default function Doctors() {
-//   return (
-//     <div className={styles.doctors}>
-//       <h2>Doctors Page</h2>
-//       <p>List of doctors will appear here.</p>
-//     </div>
-//   );
-// }

@@ -64,11 +64,12 @@
 } */
 
 body {
-  background-image: url('../images/signUp.jpg');
+  background-image: url("../images/signUp.jpg");
   background-size: cover;
   background-position: center;
   margin: 0;
   font-family: Arial, sans-serif;
+  background-color: aliceblue;
 }
 
 .signupContainer {
@@ -79,7 +80,7 @@ body {
 }
 
 .signupForm {
-  background-color: rgba(78, 74, 74, 0.6);
+  background-color: rgba(70, 73, 78, 0.6);
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -91,7 +92,7 @@ body {
 .signupForm h2 {
   text-align: center;
   margin-bottom: 1rem;
-  color:white;
+  color: white;
 }
 
 .signupForm input {
@@ -104,7 +105,7 @@ body {
 
 .signupForm button {
   padding: 10px;
-  background-color: red;
+  background-color: rgba(38, 83, 160, 0.956);
   border: none;
   color: white;
   font-weight: bold;
@@ -114,17 +115,16 @@ body {
 }
 
 .signupForm button:hover {
- font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
 .backButton {
   margin-top: 10px;
   padding: 10px;
-  background-color: gray;
+  background-color: rgb(139, 135, 151);
   border: none;
   color: white;
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
 }
-
